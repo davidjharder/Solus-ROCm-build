@@ -47,13 +47,15 @@ upcheck:
 
 %.clean:
 	@[ -d "$(subst .clean,,$@)" ] || ( \
-		git_repo=$(subst .clone,,$@); \
-		cd $${git_repo}; \
-		make clean; \
+		git_repo=$(subst .clean,,$@); \
+		make -C $${git_repo} clean; \
 	)
 
 cvecheck:
 	cve-check-tool -n $(TOPLVL)/common/packages -M $(TOPLVL)/common/mapping -o report.html; \
+
+opencvereport:
+	xdg-open report.html; \
 
 switch-domains:
 	go run common/Go/switch_repo_domains.go
